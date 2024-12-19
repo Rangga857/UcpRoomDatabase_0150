@@ -9,7 +9,7 @@ import com.example.ucpii_pam.data.dao.MataKuliahDao
 import com.example.ucpii_pam.data.entity.Dosen
 import com.example.ucpii_pam.data.entity.MataKuliah
 
-@Database(entities = [MataKuliah::class], [Dosen::class],version = 1, exportSchema =  false)
+@Database(entities = [MataKuliah::class, Dosen::class],version = 1, exportSchema =  false)
 abstract class MkDsDatabase : RoomDatabase() {
 
     abstract fun matakuliahDao(): MataKuliahDao
@@ -27,8 +27,7 @@ abstract class MkDsDatabase : RoomDatabase() {
                     "MkDsDatabase"
                 )
                     .build().also { INSTANCE = it }
-            }
-                    )
+            })
         }
     }
 }
