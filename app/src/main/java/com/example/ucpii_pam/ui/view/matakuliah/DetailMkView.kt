@@ -1,12 +1,16 @@
 package com.example.ucpii_pam.ui.view.matakuliah
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -23,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ucpii_pam.data.entity.MataKuliah
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.DetailMkUiState
+import com.example.ucpii_pam.ui.viewmodel.matakuliah.toMataKuliahEntity
 
 
 @Composable
@@ -32,7 +37,59 @@ fun BodyDetailMk(
     onDeleteClick: () ->Unit = { }
 ) {
     var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false)  }
+    when{
+        detailMkUiState.isLoading -> {
+            Box(
+                modifier=modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator()
+            }
+        }
 
+        detailMkUiState.isUiMkEventNotEmpty ->{
+            Column(
+                modifier=modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                ItemDetailMk(
+                    matakuliah = detailMkUiState.detailUiEvent.toMataKuliahEntity(),
+                    modifier = modifier
+                )
+                Spacer(modifier = Modifier.padding(8.dp))
+                Button(
+                    onClick = {
+                        deleteConfirmationRequired = true
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    Text(text = "Delete")
+                }
+                if (deleteConfirmationRequired){
+                    DeleteConfirmationDialog(
+                        onDeleteConfirm =
+                        {
+                            deleteConfirmationRequired = false
+                            onDeleteClick()
+                        },
+                        onDeleteCancel = {deleteConfirmationRequired = false},
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
+            }
+        }
+
+        detailMkUiState.isUiMkEventEmpty -> {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ){
+                Text(text = "Data tidak ditemukan",
+                    modifier = Modifier.padding(16.dp))
+            }
+        }
+    }
 }
 
 @Composable
