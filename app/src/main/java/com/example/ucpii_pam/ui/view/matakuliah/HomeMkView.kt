@@ -59,6 +59,19 @@ fun BodyHomeMkView(
                 }
             }
         }
+        homeMkUiState.listMK.isEmpty() ->{
+            Box (
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Tidak ada data mata kuliah.",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
     }
 }
 
