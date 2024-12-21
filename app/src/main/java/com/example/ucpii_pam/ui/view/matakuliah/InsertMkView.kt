@@ -15,6 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,13 +30,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucpii_pam.data.entity.Dosen
+import com.example.ucpii_pam.ui.costumwidget.TopAppBar
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.FormErrorState
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.MKUiState
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.MataKuliahEvent
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.MataKuliahViewModel
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.PenyediaMkViewModel
 import com.example.ucpii_pam.ui.widget.DynamicSelectedTextField
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun InsertMkView(
@@ -53,6 +58,43 @@ fun InsertMkView(
                 snackbarHostState.showSnackbar(message)
                 viewModel.resetSnackBarMessage()
             }
+        }
+    }
+
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = {
+            TopAppBar(
+                judul = "Tambah Mata Kuliah",
+                showBackButton = true,
+                onBack = onBack,
+                modifier = modifier
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = modifier
+                .padding(padding)
+                .padding(start = 16.dp, end = 16.dp)
+        ) {
+            InsertBodyMk(
+                matkuluiState = mkuiState,
+                dosenOptions = mkuiState.dosenOptions,
+                onValueChange = { updateEvent ->
+                    viewModel.updateState(updateEvent)
+                },
+                onClick = {
+                    coroutineScope.launch {
+                        if (viewModel.validateFields()){
+                            viewModel.saveData()
+                            withContext(Dispatchers.Main){
+                                onNavigate()
+                            }
+                        }
+                    }
+                }
+            )
         }
     }
 }
