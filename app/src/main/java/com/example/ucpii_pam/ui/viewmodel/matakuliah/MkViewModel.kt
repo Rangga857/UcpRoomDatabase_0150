@@ -51,6 +51,35 @@ class MataKuliahViewModel(
         return errorState.isFormValid()
     }
 
+    fun saveData(){
+        val currentEvent = mkUiState.mataKuliahEvent
+        if(validateFields()){
+            viewModelScope.launch {
+                try {
+                    repositoryMk.insertmatakuliah(currentEvent.toMataKuliahEntity())
+                    mkUiState = mkUiState.copy(
+                        snackbarMessage = "Data Berhasil Disimpan",
+                        mataKuliahEvent = MataKuliahEvent(),
+                        isEntryValid = FormErrorState()
+                    )
+                } catch (e: Exception){
+                    mkUiState = mkUiState.copy(
+                        snackbarMessage = "Data Gagal Disimpan"
+                    )
+                }
+            }
+        }
+        else{
+            mkUiState = mkUiState.copy(
+                snackbarMessage = "Input tidak valid. Periksa kembali data yang anda masukkan"
+            )
+        }
+    }
+    fun resetSnackBarMessage(){
+        mkUiState = mkUiState.copy(
+            snackbarMessage = null
+        )
+    }
 }
 
 data class MKUiState(
