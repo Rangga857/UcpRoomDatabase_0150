@@ -36,6 +36,21 @@ class MataKuliahViewModel(
         )
     }
 
+
+    fun validateFields():Boolean{
+        val event = mkUiState.mataKuliahEvent
+        val errorState = FormErrorState(
+            kodeMk = if (event.kodeMk.isEmpty()) "Kode MK tidak boleh kosong" else null,
+            nama = if (event.nama.isEmpty()) "Nama MataKuliah tidak boleh kosong" else null,
+            sks = if (event.sks.isEmpty()) "SKS tidak boleh kosong" else null,
+            semester = if (event.semester.isEmpty()) "Semester tidak boleh kosong" else null,
+            jenis = if (event.jenis.isEmpty()) "Jenis MataKuliah tidak boleh kosong" else null,
+            dosen_pengampu = if (event.dosen_pengampu.isEmpty()) "Dosen Pengampu tidak boleh kosong" else null
+        )
+        mkUiState = mkUiState.copy(isEntryValid = errorState)
+        return errorState.isFormValid()
+    }
+
 }
 
 data class MKUiState(
