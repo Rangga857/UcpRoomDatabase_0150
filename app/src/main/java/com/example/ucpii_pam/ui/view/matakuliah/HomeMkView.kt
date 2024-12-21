@@ -35,7 +35,10 @@ fun ListMataKuliah(
         items(
             items = listMk,
             itemContent = {mk ->
-
+                CardMk(
+                    mk = mk,
+                    onClick = {onClick(mk.kodeMk)}
+                )
             }
         )
     }
