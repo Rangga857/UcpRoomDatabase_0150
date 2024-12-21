@@ -29,8 +29,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.HomeMkUiState
+import com.example.ucpii_pam.ui.viewmodel.matakuliah.HomeMkViewModel
+import com.example.ucpii_pam.ui.viewmodel.matakuliah.PenyediaMkViewModel
 import kotlinx.coroutines.launch
+
+@Composable
+fun HomeMkView(
+    viewModel: HomeMkViewModel = viewModel(factory = PenyediaMkViewModel.Factory),
+    onAddMk : () -> Unit ={ },
+    onDetailClick: (String) -> Unit = { },
+    onBack:() -> Unit = { },
+    modifier: Modifier = Modifier
+){
+
+}
 
 @Composable
 fun BodyHomeMkView(
