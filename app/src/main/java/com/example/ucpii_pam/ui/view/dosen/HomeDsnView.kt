@@ -1,5 +1,6 @@
 package com.example.ucpii_pam.ui.view.dosen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,11 +16,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -27,10 +35,80 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucpii_pam.data.entity.Dosen
+import com.example.ucpii_pam.ui.viewmodel.dosen.HomeDsnViewModel
 import com.example.ucpii_pam.ui.viewmodel.dosen.HomeUiState
+import com.example.ucpii_pam.ui.viewmodel.dosen.PenyediaDsnViewModel
 import kotlinx.coroutines.launch
+import com.example.ucpii_pam.ui.costumwidget.TopAppBar
 
+
+@Composable
+fun HomeDsnView(
+    viewModel: HomeDsnViewModel = viewModel(
+        factory = PenyediaDsnViewModel.Factory),
+    onAddDsn : () -> Unit = { },
+    onBack: () -> Unit = { },
+    modifier: Modifier = Modifier
+) {
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 21.dp),
+        topBar = {
+            TopAppBar(
+                judul = "Daftar Dosen",
+                showBackButton = false,
+                onBack = { },
+                modifier = modifier
+            )
+        },
+        floatingActionButton = {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.End
+            ) {
+                FloatingActionButton(
+                    onClick = onAddDsn,
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Tambah Dosen"
+                    )
+                }
+                FloatingActionButton(
+                    onClick = onBack,
+                    shape = MaterialTheme.shapes.medium
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Home,
+                        contentDescription = "Kembali"
+                    )
+                }
+            }
+        }
+    ) { innerPadding ->
+        val homeUiState by viewModel.homeUiState.collectAsState()
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            BodyHomeDosenView(
+                homeUiState = homeUiState,
+                modifier = Modifier.fillMaxSize()
+            )
+
+        }
+    }
+}
 
 @Composable
 fun BodyHomeDosenView(
