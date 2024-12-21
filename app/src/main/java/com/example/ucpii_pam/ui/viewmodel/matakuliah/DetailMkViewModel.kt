@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class DetailMkViewModel(
     savedStateHandle: SavedStateHandle,
@@ -50,6 +51,13 @@ class DetailMkViewModel(
             DetailMkUiState(
                 isLoading = true)
         )
+    fun deleteMk(){
+        detailUiState.value.detailUiEvent.toMataKuliahEntity().let {
+            viewModelScope.launch {
+                repositoryMK.deletematakuliah(it)
+            }
+        }
+    }
 }
 
 data class DetailMkUiState(
