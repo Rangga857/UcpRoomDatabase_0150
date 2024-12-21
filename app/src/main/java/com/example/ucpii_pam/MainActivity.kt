@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.ucpii_pam.ui.navigation.PengelolaHalaman
 import com.example.ucpii_pam.ui.theme.UCPII_PAMTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,10 +21,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             UCPII_PAMTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    PengelolaHalaman(modifier = Modifier
+                        .padding(innerPadding))
                 }
             }
         }
