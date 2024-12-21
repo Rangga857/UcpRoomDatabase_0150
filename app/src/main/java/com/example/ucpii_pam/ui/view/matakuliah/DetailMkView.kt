@@ -6,15 +6,21 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -27,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucpii_pam.data.entity.MataKuliah
+import com.example.ucpii_pam.ui.costumwidget.TopAppBar
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.DetailMkUiState
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.DetailMkViewModel
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.PenyediaMkViewModel
@@ -40,7 +47,42 @@ fun DetailMkView(
     onEditClick: (String) -> Unit = { },
     onDeleteClick: () -> Unit = { }
 ){
+    Scaffold (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 21.dp),
+        topBar = {
+            TopAppBar(
+                judul = "Detail Mata Kuliah",
+                showBackButton = true,
+                onBack = onBack,
+                modifier = modifier
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {onEditClick(viewModel.detailUiState.value.detailUiEvent.kodeMk)},
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit MataKuliah"
+                )
+            }
+        }
+    ){ innerPadding ->
+        val detailmkUiState by viewModel.detailUiState.collectAsState()
 
+        BodyDetailMk(
+            modifier = Modifier.padding(innerPadding),
+            detailMkUiState = detailmkUiState,
+            onDeleteClick = {
+                viewModel.deleteMk()
+                onDeleteClick()
+            }
+        )
+    }
 
 }
 
