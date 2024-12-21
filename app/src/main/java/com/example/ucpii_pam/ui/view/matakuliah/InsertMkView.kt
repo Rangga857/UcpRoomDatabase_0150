@@ -1,12 +1,18 @@
 package com.example.ucpii_pam.ui.view.matakuliah
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -18,8 +24,57 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ucpii_pam.data.entity.Dosen
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.FormErrorState
+import com.example.ucpii_pam.ui.viewmodel.matakuliah.MKUiState
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.MataKuliahEvent
 import com.example.ucpii_pam.ui.widget.DynamicSelectedTextField
+
+@Composable
+fun InsertBodyMk(
+    modifier: Modifier = Modifier,
+    onValueChange: (MataKuliahEvent) -> Unit,
+    matkuluiState: MKUiState,
+    dosenOptions: List<Dosen>,
+    onClick: ()-> Unit
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .border(2.dp, Color.Gray, RoundedCornerShape(16.dp))
+                    .padding(16.dp)
+            ) {
+                FormMataKuliah(
+                    mataKuliahEvent = matkuluiState.mataKuliahEvent,
+                    onValueChange = onValueChange,
+                    errorState = matkuluiState.isEntryValid,
+                    dosenOptions = dosenOptions,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        item {
+            Button(
+                onClick = onClick,
+                modifier = Modifier.fillMaxWidth()
+            )
+            {
+                Text("Simpan")
+            }
+        }
+    }
+}
+
 
 @Composable
 fun FormMataKuliah(
