@@ -18,6 +18,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ucpii_pam.data.entity.MataKuliah
+import com.example.ucpii_pam.ui.viewmodel.matakuliah.DetailMkUiState
+
+
+@Composable
+fun BodyDetailMk(
+    modifier: Modifier = Modifier,
+    detailMkUiState: DetailMkUiState = DetailMkUiState(),
+    onDeleteClick: () ->Unit = { }
+) {
+
+}
 
 @Composable
 fun ItemDetailMk(
