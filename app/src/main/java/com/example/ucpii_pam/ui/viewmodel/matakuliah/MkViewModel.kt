@@ -30,6 +30,12 @@ class MataKuliahViewModel(
         }
     }
 
+    fun updateState(mataKuliahEvent: MataKuliahEvent){
+        mkUiState = mkUiState.copy(
+            mataKuliahEvent = mataKuliahEvent
+        )
+    }
+
 }
 
 data class MKUiState(
