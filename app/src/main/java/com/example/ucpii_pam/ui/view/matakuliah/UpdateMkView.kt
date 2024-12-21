@@ -1,5 +1,7 @@
 package com.example.ucpii_pam.ui.view.matakuliah
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -80,6 +82,32 @@ fun UpdateMhsView(
                 Text("Simpan")
             }
         }
-    ){
+    ){ padding ->
+        Column (
+            modifier= Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ){
+            InsertBodyMk (
+                matkuluiState = uimkState,
+                dosenOptions = uimkState.dosenOptions,
+                onValueChange = {updateEvent ->
+                    viewModel.updatemkState(updateEvent)
+                },
+                onClick = {
+                    coroutineScope.launch {
+                        if (viewModel.validateFields()){
+                            viewModel.updateData()
+                            withContext(Dispatchers.Main){
+                                onNavigate()
+                            }
+                        }
+                    }
+                }
+            )
+
+        }
+
     }
 }
