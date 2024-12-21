@@ -72,6 +72,16 @@ fun BodyHomeMkView(
                 )
             }
         }
+        else ->{
+            ListMataKuliah(
+                listMk = homeMkUiState.listMK,
+                onClick = {
+                    onClick(it)
+                    println(it)
+                },
+                modifier = modifier
+            )
+        }
     }
 }
 
