@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucpii_pam.data.entity.Dosen
 import com.example.ucpii_pam.ui.costumwidget.TopAppBar
+import com.example.ucpii_pam.ui.navigation.AlamatNavigasi
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.FormErrorState
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.MKUiState
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.MataKuliahEvent
@@ -40,6 +41,10 @@ import com.example.ucpii_pam.ui.widget.DynamicSelectedTextField
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+object DestinasiInsertMk : AlamatNavigasi {
+    override val route: String = "insertMk"
+}
 
 @Composable
 fun InsertMkView(
