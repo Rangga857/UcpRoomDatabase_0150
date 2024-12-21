@@ -18,6 +18,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -33,6 +34,7 @@ import com.example.ucpii_pam.ui.viewmodel.matakuliah.MataKuliahEvent
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.MataKuliahViewModel
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.PenyediaMkViewModel
 import com.example.ucpii_pam.ui.widget.DynamicSelectedTextField
+import kotlinx.coroutines.launch
 
 @Composable
 fun InsertMkView(
@@ -45,6 +47,14 @@ fun InsertMkView(
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
+    LaunchedEffect(mkuiState.snackbarMessage) {
+        mkuiState.snackbarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message)
+                viewModel.resetSnackBarMessage()
+            }
+        }
+    }
 }
 
 @Composable
