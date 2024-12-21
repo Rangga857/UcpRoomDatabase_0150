@@ -15,18 +15,37 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucpii_pam.data.entity.Dosen
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.FormErrorState
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.MKUiState
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.MataKuliahEvent
+import com.example.ucpii_pam.ui.viewmodel.matakuliah.MataKuliahViewModel
+import com.example.ucpii_pam.ui.viewmodel.matakuliah.PenyediaMkViewModel
 import com.example.ucpii_pam.ui.widget.DynamicSelectedTextField
+
+@Composable
+fun InsertMkView(
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: MataKuliahViewModel = viewModel(factory = PenyediaMkViewModel.Factory)
+) {
+    val mkuiState = viewModel.mkUiState
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+}
 
 @Composable
 fun InsertBodyMk(
