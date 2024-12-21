@@ -1,5 +1,6 @@
 package com.example.ucpii_pam.ui.view.matakuliah
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,12 +12,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,11 +31,14 @@ import androidx.compose.ui.unit.dp
 import com.example.ucpii_pam.data.entity.MataKuliah
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ucpii_pam.ui.costumwidget.TopAppBar
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.HomeMkUiState
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.HomeMkViewModel
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.PenyediaMkViewModel
@@ -43,7 +52,66 @@ fun HomeMkView(
     onBack:() -> Unit = { },
     modifier: Modifier = Modifier
 ){
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 21.dp),
+        topBar = {
+            TopAppBar(
+                judul = "Daftar MataKuliah",
+                showBackButton = false,
+                onBack = { },
+                modifier = Modifier
+            )
+        },
+        floatingActionButton = {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.End
+            ) {
+                    FloatingActionButton(
+                        onClick = onAddMk,
+                        shape = MaterialTheme.shapes.medium,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Tambah Matakuliah"
+                        )
+                    }
+                FloatingActionButton(
+                    onClick = onBack,
+                    shape = MaterialTheme.shapes.medium
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Home,
+                        contentDescription = "Kembali"
+                    )
+                }
+            }
+        }
 
+    ) { innerPadding ->
+        val homeMkUiState by viewModel.homeUIState.collectAsState()
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            BodyHomeMkView(
+                homeMkUiState = homeMkUiState,
+                onClick = {
+                    onDetailClick(it)
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+    }
 }
 
 @Composable
