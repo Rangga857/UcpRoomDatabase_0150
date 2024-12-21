@@ -1,7 +1,17 @@
 package com.example.ucpii_pam.ui.viewmodel.matakuliah
 
+import androidx.lifecycle.ViewModel
 import com.example.ucpii_pam.data.entity.Dosen
 import com.example.ucpii_pam.data.entity.MataKuliah
+import com.example.ucpii_pam.repository.RepositoryDsn
+import com.example.ucpii_pam.repository.RepositoryMK
+
+class MataKuliahViewModel(
+    private val repositoryMk: RepositoryMK,
+    private val repositoryDsn: RepositoryDsn): ViewModel(){
+
+}
+
 data class MKUiState(
     val mataKuliahEvent: MataKuliahEvent = MataKuliahEvent(),
     val isEntryValid: FormErrorState = FormErrorState(),
