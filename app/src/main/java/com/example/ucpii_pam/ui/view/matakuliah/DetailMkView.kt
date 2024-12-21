@@ -25,10 +25,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ucpii_pam.data.entity.MataKuliah
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.DetailMkUiState
+import com.example.ucpii_pam.ui.viewmodel.matakuliah.DetailMkViewModel
+import com.example.ucpii_pam.ui.viewmodel.matakuliah.PenyediaMkViewModel
 import com.example.ucpii_pam.ui.viewmodel.matakuliah.toMataKuliahEntity
 
+@Composable
+fun DetailMkView(
+    modifier: Modifier = Modifier,
+    viewModel: DetailMkViewModel = viewModel(factory = PenyediaMkViewModel.Factory),
+    onBack: () ->Unit = { },
+    onEditClick: (String) -> Unit = { },
+    onDeleteClick: () -> Unit = { }
+){
+
+
+}
 
 @Composable
 fun BodyDetailMk(
